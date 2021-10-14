@@ -3,4 +3,4 @@ logs:
   format: '%(asctime)s %(name)s %(levelname)s: %(message)s'
 
 train:
-  preprocess: {max_seq_len: 384, lr: 0.0005, batch_size: 64, nb_epoch: 20}
+  preprocess: {max_seq_len: 384, lr: 0.05, batch_size: 64, nb_epoch: 20}
