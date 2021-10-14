@@ -155,7 +155,7 @@ def entrenar_modelo(modelo, dataset, config, callbacks, model_name=None, logger=
         logger.info(f"Se realizará el entrenamiento con {epochs} epochs")
 
     try:
-        mod_hist = modelo.fit(dataset, epochs=epochs, callbacks=callbacks, workers=-1, use_multiprocessing=True)
+        mod_hist = modelo.fit(dataset, epochs=epochs, callbacks=callbacks)
 
         if logger is not None:
             logger.info(f"Entrenamiento finalizado!")
