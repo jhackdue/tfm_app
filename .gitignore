@@ -1,0 +1,10 @@
+/notebooks/.ipynb_checkpoints/
+/data/checkpoints/
+/data/logs/tensorboard/
+/data/cache/
+/data/models/qa_model_squad_v2_esp/qa_model_squad_v2_esp.h5
+/data/models/qa_model_squad_v2_esp/qa_model_squad_v2_esp.json
+*/__pycache__/
+/data/models/model_pipeline/assets/
+/data/models/model_pipeline/variables/
+/data/models/model_pipeline/saved_model.pb
