@@ -1,20 +1,19 @@
 from typing import Optional
 from fastapi import FastAPI, Query
-from starlette.responses import Response
-import io
+
 import json
 import os
 
-import utils.utils.read_and_write as rw  # noqa: E402
-import utils.utils.preprocesado as pp  # noqa: E402
-import utils.train.train_utils as tu  # noqa: E402
-import utils.predict.predict_utils as pu  # noqa: E402
+import api_utils.utils.read_and_write as rw
+import api_utils.utils.preprocesado as pp
+import api_utils.train.train_utils as tu
+import api_utils.predict.predict_utils as pu
 
 
 # Cargar ficheros de configuración y preprocesado
-ABS_PATH = ".\\"
-DATA_DIR = os.path.join(ABS_PATH, "utils\\data\\")
-MODELS_DIR = os.path.join(DATA_DIR, "utils\\models\\")
+ABS_PATH = "./"
+DATA_DIR = os.path.join(ABS_PATH, "api_utils/data/")
+MODELS_DIR = os.path.join(DATA_DIR, "models/")
 
 logger = rw.crear_logger("tfm-app.log")
 config_file = rw.cargar_config(logger)
@@ -54,10 +53,10 @@ async def get_qas(context: str = Query(..., min_length=3),
     """
     Get question answering
 
-    :param context:
-    :param question:
-    :param use_pipeline:
-    :return:
+    :param context: Contexto donde encontrar una respuesta
+    :param question: Pregunta para el modelo
+    :param use_pipeline: Flag booleano para usar o no un modelo de HugginFace
+    :return: Respuesta predicha a partir de la pregunta y contexto
     """
     logger.debug("Ejecutar modelo...")
 

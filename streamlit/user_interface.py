@@ -3,7 +3,7 @@ from PIL import Image
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 import requests
 
-img = Image.open("img\\imf_logo.png")
+img = Image.open("img/imf_logo.png")
 st.beta_set_page_config(page_title="TFM-APP", page_icon=img)
 
 
