@@ -8,3 +8,5 @@
 /data/models/model_pipeline/assets/
 /data/models/model_pipeline/variables/
 /data/models/model_pipeline/saved_model.pb
+/img/
+/data/logs/tfm-app.log
