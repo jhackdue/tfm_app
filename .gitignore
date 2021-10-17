@@ -9,5 +9,5 @@
 /data/models/model_pipeline/variables/
 /data/models/model_pipeline/saved_model.pb
 /data/logs/tfm-app.log
-/fastapi/utils/
 /streamlit/img/
+/fastapi/api_utils/data

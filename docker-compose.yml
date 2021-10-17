@@ -1,11 +1,15 @@
 version: '3'
 
+networks:
+  proyect:
+    driver: bridge
+
 services:
   fastapi:
     build: 
       context: fastapi
       dockerfile: Dockerfile
-    # restart: unless-stopped
+    restart: on-failure
     ports: 
       - 8008:8008
     environment:
@@ -16,10 +20,10 @@ services:
       resources:
         limits:
           cpus: '2'
-          memory: 4096M
+          memory: 8192M
         reservations:
           cpus: '1.0'
-          memory: 2048M
+          memory: 4096M
     networks:
       - proyect
     container_name: fastapi-docker
@@ -37,7 +41,3 @@ services:
     container_name: streamlit-docker
     # volumes:
     #   - "./streamlit:/app"
-
-networks:
-  proyect:
-    driver: bridge
