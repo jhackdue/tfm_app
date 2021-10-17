@@ -1,53 +1,3 @@
-2021-10-14 23:17:49,718 tfm-app.log INFO: El fichero log tfm-app.log ha sido creado
-2021-10-14 23:17:49,721 tfm-app.log INFO: El fichero train-v2.0-es.json existe en D:\tfm_app\src\notebooks\..\data\datasets
-2021-10-14 23:17:49,722 tfm-app.log INFO: El fichero dev-v2.0-es.json existe en D:\tfm_app\src\notebooks\..\data\datasets
-2021-10-14 23:17:49,723 tfm-app.log INFO: El fichero vocab.txt existe en D:\tfm_app\src\notebooks\..\data\models
-2021-10-14 23:17:49,724 tfm-app.log INFO: El fichero config.json existe en D:\tfm_app\src\notebooks\..\data\models
-2021-10-14 23:18:56,838 tfm-app.log INFO: Transformado el conjunto de entrenamiento al formato SquadExample
-2021-10-14 23:19:02,471 tfm-app.log INFO: Se ha conseguido obtener los inputs y los targets para el conjunto de entrenamiento. Se han creado  85629 puntos
-2021-10-14 23:19:09,619 tfm-app.log INFO: Transformado el conjunto de validación al formato SquadExample
-2021-10-14 23:19:10,195 tfm-app.log INFO: Se ha conseguido obtener los inputs y los targets para el conjunto de validación. Se han creado  9649 puntos
-2021-10-14 23:19:12,572 tfm-app.log INFO: Se ha realizado la carga del modelo para QA a partir del modelo preentrenado dccuchile/bert-base-spanish-wwm-cased.
-2021-10-14 23:19:12,579 tfm-app.log INFO: Se ha congelado la primera capa del modelo: bert
-2021-10-14 23:19:12,592 tfm-app.log INFO: Se ha compilado el modelo con Adam(lr=0.05) como Optimizador y SparseCategoricalCrossentropy como función de pérdida.
-2021-10-14 23:19:12,593 tfm-app.log INFO: Model: "tf_bert_for_question_answering"
-2021-10-14 23:19:12,594 tfm-app.log INFO: _________________________________________________________________
-2021-10-14 23:19:12,595 tfm-app.log INFO: Layer (type)                 Output Shape              Param #   
-2021-10-14 23:19:12,596 tfm-app.log INFO: =================================================================
-2021-10-14 23:19:12,602 tfm-app.log INFO: bert (TFBertMainLayer)       multiple                  109850880 
-2021-10-14 23:19:12,603 tfm-app.log INFO: _________________________________________________________________
-2021-10-14 23:19:12,605 tfm-app.log INFO: qa_outputs (Dense)           multiple                  1538      
-2021-10-14 23:19:12,606 tfm-app.log INFO: =================================================================
-2021-10-14 23:19:12,615 tfm-app.log INFO: Total params: 109,852,418
-2021-10-14 23:19:12,616 tfm-app.log INFO: Trainable params: 1,538
-2021-10-14 23:19:12,617 tfm-app.log INFO: Non-trainable params: 109,850,880
-2021-10-14 23:19:12,618 tfm-app.log INFO: _________________________________________________________________
-2021-10-14 23:22:55,176 tfm-app.log INFO: Se realizará el entrenamiento con 20 epochs
-2021-10-14 23:23:17,341 tfm-app.log ERROR: 2 root error(s) found.
-  (0) Resource exhausted:  OOM when allocating tensor with shape[100,12,384,384] and type float on /job:localhost/replica:0/task:0/device:GPU:0 by allocator GPU_0_bfc
-	 [[node tf_bert_for_question_answering/bert/encoder/layer_._0/attention/self/Softmax (defined at d:\python_entornos\tf_gpu\lib\site-packages\transformers\modeling_tf_bert.py:262) ]]
-Hint: If you want to see a list of allocated tensors when OOM happens, add report_tensor_allocations_upon_oom to RunOptions for current allocation info.
-
-	 [[ReadVariableOp_1/_426]]
-Hint: If you want to see a list of allocated tensors when OOM happens, add report_tensor_allocations_upon_oom to RunOptions for current allocation info.
-
-  (1) Resource exhausted:  OOM when allocating tensor with shape[100,12,384,384] and type float on /job:localhost/replica:0/task:0/device:GPU:0 by allocator GPU_0_bfc
-	 [[node tf_bert_for_question_answering/bert/encoder/layer_._0/attention/self/Softmax (defined at d:\python_entornos\tf_gpu\lib\site-packages\transformers\modeling_tf_bert.py:262) ]]
-Hint: If you want to see a list of allocated tensors when OOM happens, add report_tensor_allocations_upon_oom to RunOptions for current allocation info.
-
-0 successful operations.
-0 derived errors ignored. [Op:__inference_train_function_22218]
-
-Errors may have originated from an input operation.
-Input Source operations connected to node tf_bert_for_question_answering/bert/encoder/layer_._0/attention/self/Softmax:
- tf_bert_for_question_answering/bert/encoder/layer_._0/attention/self/add (defined at d:\python_entornos\tf_gpu\lib\site-packages\transformers\modeling_tf_bert.py:259)
-
-Input Source operations connected to node tf_bert_for_question_answering/bert/encoder/layer_._0/attention/self/Softmax:
- tf_bert_for_question_answering/bert/encoder/layer_._0/attention/self/add (defined at d:\python_entornos\tf_gpu\lib\site-packages\transformers\modeling_tf_bert.py:259)
-
-Function call stack:
-train_function -> train_function
-
 2021-10-14 23:26:45,733 tfm-app.log INFO: El fichero log tfm-app.log ha sido creado
 2021-10-14 23:26:45,736 tfm-app.log INFO: El fichero train-v2.0-es.json existe en D:\tfm_app\src\notebooks\..\data\datasets
 2021-10-14 23:26:45,737 tfm-app.log INFO: El fichero dev-v2.0-es.json existe en D:\tfm_app\src\notebooks\..\data\datasets
@@ -55,11 +5,11 @@ train_function -> train_function
 2021-10-14 23:26:45,739 tfm-app.log INFO: El fichero config.json existe en D:\tfm_app\src\notebooks\..\data\models
 2021-10-14 23:27:57,657 tfm-app.log INFO: Transformado el conjunto de entrenamiento al formato SquadExample
 2021-10-14 23:28:03,531 tfm-app.log INFO: Se ha conseguido obtener los inputs y los targets para el conjunto de entrenamiento. Se han creado  85629 puntos
-2021-10-14 23:28:10,812 tfm-app.log INFO: Transformado el conjunto de validación al formato SquadExample
-2021-10-14 23:28:11,388 tfm-app.log INFO: Se ha conseguido obtener los inputs y los targets para el conjunto de validación. Se han creado  9649 puntos
+2021-10-14 23:28:10,812 tfm-app.log INFO: Transformado el conjunto de validaciï¿½n al formato SquadExample
+2021-10-14 23:28:11,388 tfm-app.log INFO: Se ha conseguido obtener los inputs y los targets para el conjunto de validaciï¿½n. Se han creado  9649 puntos
 2021-10-14 23:28:13,788 tfm-app.log INFO: Se ha realizado la carga del modelo para QA a partir del modelo preentrenado dccuchile/bert-base-spanish-wwm-cased.
 2021-10-14 23:28:13,793 tfm-app.log INFO: Se ha congelado la primera capa del modelo: bert
-2021-10-14 23:28:13,804 tfm-app.log INFO: Se ha compilado el modelo con Adam(lr=0.05) como Optimizador y SparseCategoricalCrossentropy como función de pérdida.
+2021-10-14 23:28:13,804 tfm-app.log INFO: Se ha compilado el modelo con Adam(lr=0.05) como Optimizador y SparseCategoricalCrossentropy como funciï¿½n de pï¿½rdida.
 2021-10-14 23:28:13,805 tfm-app.log INFO: Model: "tf_bert_for_question_answering"
 2021-10-14 23:28:13,807 tfm-app.log INFO: _________________________________________________________________
 2021-10-14 23:28:13,808 tfm-app.log INFO: Layer (type)                 Output Shape              Param #   
@@ -72,7 +22,7 @@ train_function -> train_function
 2021-10-14 23:28:13,833 tfm-app.log INFO: Trainable params: 1,538
 2021-10-14 23:28:13,835 tfm-app.log INFO: Non-trainable params: 109,850,880
 2021-10-14 23:28:13,836 tfm-app.log INFO: _________________________________________________________________
-2021-10-14 23:30:23,287 tfm-app.log INFO: Se realizará el entrenamiento con 20 epochs
+2021-10-14 23:30:23,287 tfm-app.log INFO: Se realizarï¿½ el entrenamiento con 20 epochs
 2021-10-15 01:44:29,703 tfm-app.log INFO: 
 epoch=1, exact match score=0.00
 2021-10-15 03:58:28,133 tfm-app.log INFO: 
@@ -116,78 +66,5 @@ epoch=20, exact match score=0.00
 2021-10-16 20:09:20,172 tfm-app.log INFO: Entrenamiento finalizado!
 2021-10-16 20:09:20,248 tfm-app.log INFO: Guardando pesos...
 2021-10-16 20:09:21,484 tfm-app.log INFO: Se han guardado los pesos en: ..\data\models\qa_model_squad_v2_esp\qa_model_squad_v2_esp.h5
-2021-10-16 20:09:21,485 tfm-app.log INFO: Guardando Modelo Json...
-2021-10-16 20:09:21,487 tfm-app.log ERROR: 
-2021-10-17 14:13:41,364 tfm-app.log INFO: El fichero log tfm-app.log ha sido creado
-2021-10-17 14:13:41,366 tfm-app.log INFO: El fichero train-v2.0-es.json existe en D:\tfm_app\src\notebooks\..\data\datasets
-2021-10-17 14:13:41,367 tfm-app.log INFO: El fichero dev-v2.0-es.json existe en D:\tfm_app\src\notebooks\..\data\datasets
-2021-10-17 14:13:41,369 tfm-app.log INFO: El fichero vocab.txt existe en D:\tfm_app\src\notebooks\..\data\models
-2021-10-17 14:13:41,371 tfm-app.log INFO: El fichero config.json existe en D:\tfm_app\src\notebooks\..\data\models
-2021-10-17 14:14:52,587 tfm-app.log INFO: Se ha realizado la carga del modelo para QA a partir del modelo preentrenado dccuchile/bert-base-spanish-wwm-cased.
-2021-10-17 14:14:52,592 tfm-app.log INFO: Se ha congelado la primera capa del modelo: bert
-2021-10-17 14:14:52,605 tfm-app.log INFO: Se ha compilado el modelo con Adam(lr=0.05) como Optimizador y SparseCategoricalCrossentropy como función de pérdida.
-2021-10-17 14:14:52,606 tfm-app.log INFO: Model: "tf_bert_for_question_answering"
-2021-10-17 14:14:52,608 tfm-app.log INFO: _________________________________________________________________
-2021-10-17 14:14:52,608 tfm-app.log INFO: Layer (type)                 Output Shape              Param #   
-2021-10-17 14:14:52,610 tfm-app.log INFO: =================================================================
-2021-10-17 14:14:52,618 tfm-app.log INFO: bert (TFBertMainLayer)       multiple                  109850880 
-2021-10-17 14:14:52,620 tfm-app.log INFO: _________________________________________________________________
-2021-10-17 14:14:52,622 tfm-app.log INFO: qa_outputs (Dense)           multiple                  1538      
-2021-10-17 14:14:52,623 tfm-app.log INFO: =================================================================
-2021-10-17 14:14:52,634 tfm-app.log INFO: Total params: 109,852,418
-2021-10-17 14:14:52,636 tfm-app.log INFO: Trainable params: 1,538
-2021-10-17 14:14:52,637 tfm-app.log INFO: Non-trainable params: 109,850,880
-2021-10-17 14:14:52,638 tfm-app.log INFO: _________________________________________________________________
-2021-10-17 14:38:07,354 tfm-app.log INFO: El fichero log tfm-app.log ha sido creado
-2021-10-17 14:38:07,357 tfm-app.log INFO: El fichero train-v2.0-es.json existe en D:\tfm_app\src\notebooks\..\data\datasets
-2021-10-17 14:38:07,358 tfm-app.log INFO: El fichero dev-v2.0-es.json existe en D:\tfm_app\src\notebooks\..\data\datasets
-2021-10-17 14:38:07,360 tfm-app.log INFO: El fichero vocab.txt existe en D:\tfm_app\src\notebooks\..\data\models
-2021-10-17 14:38:07,361 tfm-app.log INFO: El fichero config.json existe en D:\tfm_app\src\notebooks\..\data\models
-2021-10-17 14:47:30,982 tfm-app.log INFO: El fichero log tfm-app.log ha sido creado
-2021-10-17 14:47:30,986 tfm-app.log INFO: El fichero train-v2.0-es.json existe en D:\tfm_app\src\notebooks\..\data\datasets
-2021-10-17 14:47:30,988 tfm-app.log INFO: El fichero dev-v2.0-es.json existe en D:\tfm_app\src\notebooks\..\data\datasets
-2021-10-17 14:47:30,989 tfm-app.log INFO: El fichero vocab.txt existe en D:\tfm_app\src\notebooks\..\data\models
-2021-10-17 14:47:30,990 tfm-app.log INFO: El fichero config.json existe en D:\tfm_app\src\notebooks\..\data\models
-2021-10-17 14:53:20,299 tfm-app.log INFO: Se ha realizado la carga del modelo para QA a partir del modelo preentrenado dccuchile/bert-base-spanish-wwm-cased.
-2021-10-17 14:53:20,304 tfm-app.log INFO: Se ha congelado la primera capa del modelo: bert
-2021-10-17 14:53:20,315 tfm-app.log INFO: Se ha compilado el modelo con Adam(lr=0.05) como Optimizador y SparseCategoricalCrossentropy como función de pérdida.
-2021-10-17 14:53:20,316 tfm-app.log INFO: Model: "tf_bert_for_question_answering"
-2021-10-17 14:53:20,317 tfm-app.log INFO: _________________________________________________________________
-2021-10-17 14:53:20,318 tfm-app.log INFO: Layer (type)                 Output Shape              Param #   
-2021-10-17 14:53:20,319 tfm-app.log INFO: =================================================================
-2021-10-17 14:53:20,331 tfm-app.log INFO: bert (TFBertMainLayer)       multiple                  109850880 
-2021-10-17 14:53:20,333 tfm-app.log INFO: _________________________________________________________________
-2021-10-17 14:53:20,334 tfm-app.log INFO: qa_outputs (Dense)           multiple                  1538      
-2021-10-17 14:53:20,337 tfm-app.log INFO: =================================================================
-2021-10-17 14:53:20,344 tfm-app.log INFO: Total params: 109,852,418
-2021-10-17 14:53:20,345 tfm-app.log INFO: Trainable params: 1,538
-2021-10-17 14:53:20,346 tfm-app.log INFO: Non-trainable params: 109,850,880
-2021-10-17 14:53:20,348 tfm-app.log INFO: _________________________________________________________________
-2021-10-17 14:53:24,636 tfm-app.log INFO: Se ha cargado el modelo qa_model_squad_v2_esp con éxito
-2021-10-17 15:03:21,829 tfm-app.log INFO: El fichero log tfm-app.log ha sido creado
-2021-10-17 15:03:21,833 tfm-app.log INFO: El fichero train-v2.0-es.json existe en D:\tfm_app\src\notebooks\..\data\datasets
-2021-10-17 15:03:21,834 tfm-app.log INFO: El fichero dev-v2.0-es.json existe en D:\tfm_app\src\notebooks\..\data\datasets
-2021-10-17 15:03:21,835 tfm-app.log INFO: El fichero vocab.txt existe en D:\tfm_app\src\notebooks\..\data\models
-2021-10-17 15:03:21,836 tfm-app.log INFO: El fichero config.json existe en D:\tfm_app\src\notebooks\..\data\models
-2021-10-17 15:04:00,527 tfm-app.log INFO: Se ha realizado la carga del modelo para QA a partir del modelo preentrenado dccuchile/bert-base-spanish-wwm-cased.
-2021-10-17 15:04:00,538 tfm-app.log INFO: Se ha compilado el modelo con Adam(lr=0.05) como Optimizador y SparseCategoricalCrossentropy como función de pérdida.
-2021-10-17 15:04:00,538 tfm-app.log INFO: Model: "tf_bert_for_question_answering"
-2021-10-17 15:04:00,539 tfm-app.log INFO: _________________________________________________________________
-2021-10-17 15:04:00,540 tfm-app.log INFO: Layer (type)                 Output Shape              Param #   
-2021-10-17 15:04:00,541 tfm-app.log INFO: =================================================================
-2021-10-17 15:04:00,550 tfm-app.log INFO: bert (TFBertMainLayer)       multiple                  109850880 
-2021-10-17 15:04:00,551 tfm-app.log INFO: _________________________________________________________________
-2021-10-17 15:04:00,553 tfm-app.log INFO: qa_outputs (Dense)           multiple                  1538      
-2021-10-17 15:04:00,554 tfm-app.log INFO: =================================================================
-2021-10-17 15:04:00,563 tfm-app.log INFO: Total params: 109,852,418
-2021-10-17 15:04:00,565 tfm-app.log INFO: Trainable params: 109,852,418
-2021-10-17 15:04:00,565 tfm-app.log INFO: Non-trainable params: 0
-2021-10-17 15:04:00,566 tfm-app.log INFO: _________________________________________________________________
-2021-10-17 15:04:00,969 tfm-app.log INFO: Se ha cargado el modelo qa_model_squad_v2_esp con éxito
-2021-10-17 15:31:04,762 tfm-app.log INFO: El fichero log tfm-app.log ha sido creado
-2021-10-17 15:31:04,765 tfm-app.log INFO: El fichero train-v2.0-es.json existe en D:\tfm_app\src\notebooks\..\data\datasets
-2021-10-17 15:31:04,767 tfm-app.log INFO: El fichero dev-v2.0-es.json existe en D:\tfm_app\src\notebooks\..\data\datasets
-2021-10-17 15:31:04,769 tfm-app.log INFO: El fichero vocab.txt existe en D:\tfm_app\src\notebooks\..\data\models
-2021-10-17 15:31:04,770 tfm-app.log INFO: El fichero config.json existe en D:\tfm_app\src\notebooks\..\data\models
-2021-10-17 15:32:26,574 tfm-app.log INFO: Se ha cargado el modelo model_pipeline con éxito
-2021-10-17 15:38:10,784 tfm-app.log INFO: Se ha cargado el modelo model_pipeline con éxito
+2021-10-17 15:04:00,969 tfm-app.log INFO: Se ha cargado el modelo qa_model_squad_v2_esp con ï¿½xito
+2021-10-17 15:38:10,784 tfm-app.log INFO: Se ha cargado el modelo model_pipeline con ï¿½xito

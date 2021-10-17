@@ -6,9 +6,13 @@ from transformers import pipeline
 def is_whitespace(c):
     """
     Indica si un cadena de caracteres se corresponde con un espacio en blanco / separador o no.
+
+    :param c: caracter sobre el cual indicar si es un espacio en blanco o no
+
+    :return Booleano sobre si es un espacio en blanco
     """
 
-    if c == " " or c == "\t" or c == "\r" or c == "\n" or ord(c) == 0x202F:
+    if (c in [" ", "\t", "\r", "\n"]) or (ord(c) == 0x202F):
         return True
     return False
 
@@ -17,6 +21,10 @@ def whitespace_split(text):
     """
     Toma el texto y devuelve una lista de "palabras" separadas segun los
     espacios en blanco / separadores anteriores.
+
+    :param text: Texto que queremos separar por los espacios en blanco
+
+    :return Una lista de palabras en el texto, obviando palabras en blanco
     """
     doc_tokens = []
     prev_is_whitespace = True
@@ -31,52 +39,28 @@ def whitespace_split(text):
             prev_is_whitespace = False
     return doc_tokens
 
-# def tokenize_context(text_words, tokenizer):
-#     '''
-#     Toma una lista de palabras (devueltas por whitespace_split()) y tokeniza cada
-#     palabra una por una. También almacena, para cada nuevo token, la palabra original
-#     del parámetro text_words.
-#     '''
-#     text_tok = []
-#     tok_to_word_id = []
-#     for word_id, word in enumerate(text_words):
-#         word_tok = tokenizer.token_to_id(word)
-#         text_tok += word_tok
-#         tok_to_word_id += [word_id]*len(word_tok)
-#     return text_tok, tok_to_word_id
-
-# def get_ids(tokens, tokenizer):
-#     return tokenizer.convert_tokens_to_ids(tokens)
-
-# def get_mask(tokens):
-#     return np.char.not_equal(tokens, "[PAD]").astype(int)
-
-# def get_segments(tokens):
-#     seg_ids = []
-#     current_seg_id = 0
-#     for tok in tokens:
-#         seg_ids.append(current_seg_id)
-#         if tok == "[SEP]":
-#             current_seg_id = 1-current_seg_id  # Convierte 1 en 0 y viceversa
-#     return seg_ids
-
 
 def create_input_dict(question, context, tokenizer, max_len):
     """
-    Take a question and a context as strings and return a dictionary with the 3
-    elements needed for the model. Also return the context_words, the
-    context_tok to context_word ids correspondance and the length of
-    question_tok that we will need later.
+    A partir de una pregunta y un contexto como cadenas, devuelve un diccionario
+    con los 3 elementos necesarios para el modelo. También devuelve las context_words,
+    context_tok a la correspondencia de ids de context_word y la longitud de
+    question_tok que necesitaremos más adelante.
+
+    :param question: Pregunta para el modelo
+    :param context: Contexto donde encontrar una respuesta
+    :param tokenizer: Tokenizador utilizado en el modelo
+    :param max_len: Tamaño de la secuencia máxima de tokens en el contexto
+
+    :returns diccionario input para el modelo, tokens del contexto,
+            índices de los tokens y longitud de los tokens de la pregunta.
     """
+
     question_tok = tokenizer.encode(question)
 
-    context_words = whitespace_split(context)  # Se puede reemplazar por un .split()
-    # context_tok, context_tok_to_word_id = tokenize_context(context_words)
-    # context_tok = tokenizer.encode(context).tokens
-    context_tok_to_word_id = tokenizer.encode(context).ids
+    context_words = whitespace_split(context)
 
     input_tok = tokenizer.encode(question, context).tokens
-    # input_tok = question_tok + ["[SEP]"] + context_tok + ["[SEP]"]
     input_ids = tokenizer.encode(question, context).ids
     input_mask = tokenizer.encode(question, context).attention_mask
     input_type_ids = tokenizer.encode(question, context).type_ids
@@ -86,23 +70,31 @@ def create_input_dict(question, context, tokenizer, max_len):
     input_mask += [0]*(max_len-len(input_mask))
     input_type_ids += [0]*(max_len-len(input_type_ids))
 
-    input_dict = {}
-    # ["input_ids", "attention_mask", "token_type_ids"]
-    input_dict["input_ids"] = tf.expand_dims(tf.cast(input_ids, tf.int32), 0)
-    input_dict["attention_mask"] = tf.expand_dims(tf.cast(input_mask, tf.int32), 0)
-    input_dict["token_type_ids"] = tf.expand_dims(tf.cast(input_type_ids, tf.int32), 0)
+    input_dict = {"input_ids": tf.expand_dims(tf.cast(input_ids, tf.int32), 0),
+                  "attention_mask": tf.expand_dims(tf.cast(input_mask, tf.int32), 0),
+                  "token_type_ids": tf.expand_dims(tf.cast(input_type_ids, tf.int32), 0)}
 
-    return input_dict, context_words, context_tok_to_word_id, len(question_tok)
+    return input_dict, context_words, len(question_tok)
 
 
 def predict(question, context, modelo=None, tokenizer=None, max_len=384, use_pipeline=False):
+    """
+    Dado un modelo, una pregunta, un contexto, un tokenizador y un tamaño máximo de secuencia,
+    se obtiene la predicción del modelo. Con el flag use_pipeline, podemos usar un modelo
+    cargado en HuggingFace ya preentrenado para esta tarea.
+
+    :param question: Pregunta para el modelo
+    :param context: Contexto donde encontrar una respuesta
+    :param modelo: Modelo con el cual predecir
+    :param tokenizer: Tokenizador utilizado en el modelo
+    :param max_len: Tamaño de la secuencia máxima de tokens en el contexto
+    :param use_pipeline: Flag booleano para usar o no un modelo de HugginFace
+    :return: Respuesta predicha a partir de la pregunta y contexto
+    """
 
     if not use_pipeline:
         # Formateamos datos de entrada
-        my_input_dict, my_context_words, context_tok_to_word_id, question_tok_len = create_input_dict(question,
-                                                                                                      context,
-                                                                                                      tokenizer,
-                                                                                                      max_len)
+        my_input_dict, my_context_words, question_tok_len = create_input_dict(question, context, tokenizer, max_len)
 
         # Inferencia del modelo
 
@@ -110,9 +102,6 @@ def predict(question, context, modelo=None, tokenizer=None, max_len=384, use_pip
 
         start_logits_context = start_logits.numpy()[0, question_tok_len + 1:]
         end_logits_context = end_logits.numpy()[0, question_tok_len + 1:]
-
-        # start_word_id = np.argmax(start_logits_context)
-        # end_word_id = np.argmax(end_logits_context)
 
         pair_scores = np.ones((len(start_logits_context), len(end_logits_context))) * (-1E10)
         for i in range(len(start_logits_context - 1)):
