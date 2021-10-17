@@ -27,10 +27,7 @@ services:
     #   - "./fastapi:/app/"
 
   streamlit:
-    #build: streamlit/
-    build:
-      context: streamlit
-      dockerfile: Dockerfile
+    build: streamlit/
     depends_on:
       - fastapi
     ports: 
