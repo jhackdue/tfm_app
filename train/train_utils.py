@@ -4,6 +4,7 @@ import datetime
 import os
 import tensorflow as tf
 from tensorflow.keras.models import model_from_json
+from tensorflow.keras.models import load_model
 from transformers import TFBertForQuestionAnswering
 import sys
 sys.path.append("..")
@@ -34,7 +35,7 @@ def freeze_model(modelo, logger=None):
     return modelo
 
 
-def crear_modelo(pre_model=None, logger=None, config=None):
+def crear_modelo(pre_model=None, logger=None, config=None, freeze=True):
     """
     Realiza un finetuning sobre un modelo pre-entrenado. Congela la primera capa (modelo pre-entrenado)
     y deja las últimas capas compiladas para entrenamiento.
@@ -42,6 +43,7 @@ def crear_modelo(pre_model=None, logger=None, config=None):
     :param pre_model: Nombre del modelo en HuggungFace para usarlo como base.
     :param logger: Fichero de logs de la aplicación
     :param config: Fichero de configuración del modelo.
+    :param freeze: Booleano para congelar la capa base.
 
     :return: Modelo compilado
     """
@@ -52,7 +54,8 @@ def crear_modelo(pre_model=None, logger=None, config=None):
     if logger is not None:
         logger.info(f"Se ha realizado la carga del modelo para QA a partir del modelo preentrenado {pre_model}.")
 
-    model = freeze_model(model, logger=logger)
+    if freeze:
+        model = freeze_model(model, logger=logger)
 
     # Optimizer y loss
     lr = config["lr"] if config is not None else 0.005
@@ -70,7 +73,7 @@ def crear_modelo(pre_model=None, logger=None, config=None):
     return model
 
 
-def obtener_modelo(pre_model="dccuchile/bert-base-spanish-wwm-cased", logger=None, config=None):
+def obtener_modelo(pre_model=None, logger=None, config=None, freeze=True):
     """
     Crea el modelo dentro de la GPU, marcado como dispositivo 0.
 
@@ -78,11 +81,14 @@ def obtener_modelo(pre_model="dccuchile/bert-base-spanish-wwm-cased", logger=Non
                     Por defecto: "dccuchile/bert-base-spanish-wwm-cased"
     :param logger: Fichero de logs de la aplicación
     :param config: Fichero de configuración del modelo.
+    :param freeze: Booleano para congelar la capa base.
 
     :return: Modelo compilado y el optimizador usado.
     """
+
+    pre_model = "dccuchile/bert-base-spanish-wwm-cased" if pre_model is None else pre_model
     with tf.device('/GPU:0'):
-        model = crear_modelo(pre_model=pre_model, logger=logger, config=config)
+        model = crear_modelo(pre_model=pre_model, logger=logger, config=config, freeze=freeze)
 
         if logger is not None:
             model.summary(print_fn=logger.info)
@@ -187,26 +193,29 @@ def entrenar_modelo(modelo, dataset, config, callbacks, model_name=None, logger=
             logger.error(e)
 
 
-def cargar_modelo(model_name=None, logger=None):
+def cargar_modelo(model_name=None, pre_model=None, logger=None, config=None, pipeline=False):
     """
     Cargamos el modelo para realizar una predicción.
 
     :param model_name: Nombre del modelo. "qa_model_squad_v2_esp" por defecto.
+    :param pre_model: Nombre del modelo en HuggungFace para usarlo como base.
+                    Por defecto: "dccuchile/bert-base-spanish-wwm-cased"
     :param logger: Fichero de logs de la aplicación
+    :param config: Fichero de configuración del modelo.
+    :param pipeline: Si estamos cargando un modelo ya o no un modelo entrenado.
     :return: modelo cargado
     """
 
     model_name = "qa_model_squad_v2_esp" if model_name is None else model_name
     model_path = os.path.join(MODEL_PATH, model_name)
 
-    pesos_path = os.path.join(model_path, f"{model_name}.h5")
-    json_path = os.path.join(model_path, f"{model_name}.json")
+    if not pipeline:
+        model_path = os.path.join(model_path, f"{model_name}.h5")
+        modelo = obtener_modelo(pre_model=pre_model, logger=logger, config=config, freeze=False)
+        modelo.load_weights(model_path)
 
-    with open(json_path) as json_file:
-        json_model = json_file.read()
-
-    modelo = model_from_json(json_model)
-    modelo.load_weights(pesos_path)
+    else:
+        modelo = load_model(model_path)
 
     if logger is not None:
         logger.info(f"Se ha cargado el modelo {model_name} con éxito")

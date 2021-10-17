@@ -1,6 +1,5 @@
 import numpy as np
 import tensorflow as tf
-from IPython.core.display import HTML
 from transformers import pipeline
 
 
@@ -134,12 +133,3 @@ def predict(question, context, modelo=None, tokenizer=None, max_len=384, use_pip
         predicted_answer = qa(context=context, question=question)
 
     return predicted_answer
-
-
-def mostrar_respuesta(question, context, answer, use_pipeline=False):
-
-    if use_pipeline:
-        answer = answer["answer"]
-    HTML(f'<h2>{question.upper()}</h2>')
-    marked_text = str(context.replace(answer, f"<mark>{answer}</mark>"))
-    HTML(f"""<blockquote> {marked_text} </blockquote>""")
