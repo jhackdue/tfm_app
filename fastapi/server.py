@@ -4,19 +4,17 @@ from starlette.responses import Response
 import io
 import json
 import os
-import sys
 
-sys.path.append("..")
-import utils.read_and_write as rw  # noqa: E402
-import utils.preprocesado as pp  # noqa: E402
-import train.train_utils as tu  # noqa: E402
-import predict.predict_utils as pu  # noqa: E402
+import utils.utils.read_and_write as rw  # noqa: E402
+import utils.utils.preprocesado as pp  # noqa: E402
+import utils.train.train_utils as tu  # noqa: E402
+import utils.predict.predict_utils as pu  # noqa: E402
 
 
 # Cargar ficheros de configuración y preprocesado
-ABS_PATH = "..\\"
-DATA_DIR = os.path.join(ABS_PATH, "data\\")
-MODELS_DIR = os.path.join(DATA_DIR, "models\\")
+ABS_PATH = ".\\"
+DATA_DIR = os.path.join(ABS_PATH, "utils\\data\\")
+MODELS_DIR = os.path.join(DATA_DIR, "utils\\models\\")
 
 logger = rw.crear_logger("tfm-app.log")
 config_file = rw.cargar_config(logger)
