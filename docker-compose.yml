@@ -6,9 +6,10 @@ networks:
 
 services:
   fastapi:
-    build: 
-      context: fastapi
-      dockerfile: Dockerfile
+    #    build:
+    #      context: fastapi
+    #      dockerfile: Dockerfile
+    image: jhackdue/tfm_app_fastapi:latest
     restart: on-failure
     ports: 
       - 8008:8008
@@ -26,18 +27,15 @@ services:
           memory: 4096M
     networks:
       - proyect
-    container_name: fastapi-docker
-    # volumes:
-    #   - "./fastapi:/app/"
+    container_name: tfm_app_fastapi_container
 
   streamlit:
-    build: streamlit/
+    #    build: streamlit/
+    image: jhackdue/tfm_app_streamlit:latest
     depends_on:
       - fastapi
     ports: 
         - 8501:8501
     networks:
       - proyect
-    container_name: streamlit-docker
-    # volumes:
-    #   - "./streamlit:/app"
+    container_name: tfm_app_stramlit_container
