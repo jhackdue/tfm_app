@@ -3,7 +3,7 @@
 /project/data/logs/tensorboard/
 /project/data/cache/
 /project/data/models/qa_model_squad_v2_esp/
-/project/data/models/model_pipeline/
+/project/data/models/remote_model/
 /project/*/__pycache__/
 */__pycache__/
 */*/*/__pycache__/

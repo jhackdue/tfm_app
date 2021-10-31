@@ -158,7 +158,7 @@ def entrenar_modelo(modelo, dataset, config, callbacks, model_name=None, logger=
 
     epochs = config["nb_epoch"]
     if logger is not None:
-        logger.info(f"Se realizará el entrenamiento con {epochs} epochs")
+        logger.info(f"Modelo entrenado con los siguientes hiperparametros: {config}")
 
     try:
         mod_hist = modelo.fit(dataset, epochs=epochs, callbacks=callbacks)
@@ -177,14 +177,6 @@ def entrenar_modelo(modelo, dataset, config, callbacks, model_name=None, logger=
         modelo.save_weights(pesos_path)
         if logger is not None:
             logger.info(f"Se han guardado los pesos en: {pesos_path}")
-            logger.info("Guardando Modelo Json...")
-
-        json_path = os.path.join(model_path, f"{model_name}.json")
-        with open(json_path, "w") as json_file:
-            json_file.write(modelo.to_json())
-
-        if logger is not None:
-            logger.info(f"Se ha guardado el modelo json en: {json_path}")
 
         return mod_hist
 
@@ -193,7 +185,7 @@ def entrenar_modelo(modelo, dataset, config, callbacks, model_name=None, logger=
             logger.error(e)
 
 
-def cargar_modelo(model_name=None, pre_model=None, logger=None, config=None, pipeline=False):
+def cargar_modelo(model_name=None, pre_model=None, logger=None, config=None):
     """
     Cargamos el modelo para realizar una predicción.
 
@@ -202,20 +194,15 @@ def cargar_modelo(model_name=None, pre_model=None, logger=None, config=None, pip
                     Por defecto: "dccuchile/bert-base-spanish-wwm-cased"
     :param logger: Fichero de logs de la aplicación
     :param config: Fichero de configuración del modelo.
-    :param pipeline: Si estamos cargando un modelo ya o no un modelo entrenado.
     :return: modelo cargado
     """
 
     model_name = "qa_model_squad_v2_esp" if model_name is None else model_name
     model_path = os.path.join(MODEL_PATH, model_name)
 
-    if not pipeline:
-        model_path = os.path.join(model_path, f"{model_name}.h5")
-        modelo = obtener_modelo(pre_model=pre_model, logger=logger, config=config, freeze=False)
-        modelo.load_weights(model_path)
-
-    else:
-        modelo = load_model(model_path)
+    model_path_h5 = os.path.join(model_path, f"{model_name}.h5")
+    modelo = obtener_modelo(pre_model=pre_model, logger=None, config=config, freeze=False)
+    modelo.load_weights(model_path_h5)
 
     if logger is not None:
         logger.info(f"Se ha cargado el modelo {model_name} con éxito")

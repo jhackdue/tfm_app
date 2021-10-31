@@ -1,6 +1,8 @@
 import numpy as np
 import tensorflow as tf
-from transformers import pipeline
+import requests
+# from transformers import pipeline
+
 
 
 def is_whitespace(c):
@@ -104,7 +106,7 @@ def predict(question, context, modelo=None, tokenizer=None, max_len=384, use_pip
         end_logits_context = end_logits.numpy()[0, question_tok_len + 1:]
 
         pair_scores = np.ones((len(start_logits_context), len(end_logits_context))) * (-1E10)
-        for i in range(len(start_logits_context - 1)):
+        for i in range(len(start_logits_context) - 1):
             for j in range(i, len(end_logits_context)):
                 pair_scores[i, j] = start_logits_context[i] + end_logits_context[j]
         pair_scores_argmax = np.argmax(pair_scores)
@@ -114,11 +116,31 @@ def predict(question, context, modelo=None, tokenizer=None, max_len=384, use_pip
 
         predicted_answer = ' '.join(my_context_words[start_word_id:end_word_id + 1])
 
+        response = {"start": start_word_id, "end": end_word_id, "answer": predicted_answer}
+
     else:
-        qa = pipeline('question-answering',
-                      model=modelo,
-                      tokenizer=tokenizer)
+        modelo = "mrm8488/distill-bert-base-spanish-wwm-cased-finetuned-spa-squad2-es"
+        api_token = "api_FicAVZIfHMXrTbDkxCvjpCybuZBkHJaYRx"
+        api_url = f"https://api-inference.huggingface.co/models/{modelo}"
+        headers = {"Authorization": f"Bearer {api_token}"}
+        error = True
 
-        predicted_answer = qa(context=context, question=question)
+        while error:
+            response = requests.post(api_url,
+                                     headers=headers,
+                                     json={"inputs": {"question": question, "context": context}})
 
-    return predicted_answer
+            response = response.json()
+
+            if "error" not in list(response.keys()):
+                error = False
+
+
+
+        # qa = pipeline('question-answering',
+        #               model=modelo,
+        #               tokenizer=(tokenizer, {"use_fast": False}))
+        #
+        # predicted_answer = qa(context=context, question=question)
+
+    return response

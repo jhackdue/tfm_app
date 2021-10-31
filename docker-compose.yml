@@ -6,9 +6,9 @@ networks:
 
 services:
   fastapi:
-    #    build:
-    #      context: fastapi
-    #      dockerfile: Dockerfile
+#    build:
+#      context: fastapi
+#      dockerfile: Dockerfile
     image: jhackdue/tfm_app_fastapi:latest
     restart: on-failure
     ports: 
@@ -30,7 +30,7 @@ services:
     container_name: tfm_app_fastapi_container
 
   streamlit:
-    #    build: streamlit/
+#    build: streamlit/
     image: jhackdue/tfm_app_streamlit:latest
     depends_on:
       - fastapi
